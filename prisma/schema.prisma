@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Business {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  phone       String?
+  plan        String   @default("starter")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bots         Bot[]
+  subscription Subscription?
+}
+
+model Bot {
+  id           String   @id @default(uuid())
+  businessId   String
+  name         String
+  greeting     String   @default("Welcome! How can I help you today?")
+  tone         String   @default("friendly")
+  language     String   @default("english")
+  systemPrompt String   @default("")
+  isActive     Boolean  @default(false)
+  waPhoneId    String?
+  waToken      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  business      Business       @relation(fields: [businessId], references: [id])
+  conversations Conversation[]
+  catalog       CatalogItem[]
+}
+
+model Conversation {
+  id         String   @id @default(uuid())
+  botId      String
+  customerPhone String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  bot      Bot       @relation(fields: [botId], references: [id])
+  messages Message[]
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String
+  role           String   // 'user' | 'assistant'
+  content        String
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+}
+
+model CatalogItem {
+  id          String  @id @default(uuid())
+  botId       String
+  name        String
+  description String?
+  price       Float
+  category    String?
+  isAvailable Boolean @default(true)
+
+  bot Bot @relation(fields: [botId], references: [id])
+}
+
+model Subscription {
+  id         String   @id @default(uuid())
+  businessId String   @unique
+  plan       String
+  status     String   @default("active")
+  startDate  DateTime @default(now())
+  endDate    DateTime?
+
+  business Business @relation(fields: [businessId], references: [id])
+}

@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --whatsapp: #25D366;
+  --whatsapp-dark: #1a9e4c;
+  --whatsapp-light: #e8fdf1;
+  --naija-gold: #F5A623;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f8f9fa;
+  color: #1a1a1a;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-whatsapp text-white px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-whatsapp-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply bg-white text-gray-700 px-5 py-2.5 rounded-lg font-medium text-sm border border-gray-200 hover:bg-gray-50 transition-colors;
+  }
+  .btn-danger {
+    @apply bg-red-50 text-red-600 px-5 py-2.5 rounded-lg font-medium text-sm border border-red-100 hover:bg-red-100 transition-colors;
+  }
+  .card {
+    @apply bg-white rounded-xl border border-gray-100 p-6;
+  }
+  .input {
+    @apply w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-whatsapp/20 focus:border-whatsapp transition-colors;
+  }
+  .label {
+    @apply block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1.5;
+  }
+  .badge-active {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700;
+  }
+  .badge-inactive {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500;
+  }
+}
